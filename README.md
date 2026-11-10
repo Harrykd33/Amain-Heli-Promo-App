@@ -2,14 +2,28 @@
 
 A mobile-friendly team tracker built from **AMAIN HOBBIES _ FLIGHT TEAM Promo.xlsx**. Static HTML, CSS, and JavaScript run on GitHub Pages. Supabase provides the shared PostgreSQL database and email sign-in. No application server or npm build is required.
 
-## Current status
+## Workspace update
 
-The interface, Pages workflow, access policies, and workbook import are prepared. Your supplied Supabase URL and publishable key are configured in `docs/config.js`. **The database schema and workbook import still need to be run in Supabase before shared records can load or save.** GitHub Pages publication is also still pending. The real workbook data is in the SQL import, not in the public website assets.
+The app now includes installable PWA assets, system dark mode, linked dashboard summaries, teammate/manufacturer dropdowns, manufacturer contact cards, and marketing meeting notes.
+
+**Existing Supabase projects:** run [03-workspace-upgrade.sql](supabase/03-workspace-upgrade.sql) in the SQL Editor to enable contact editing and meeting notes. It preserves existing records and adds team-only access plus version checks. For a fresh project, run migrations 01 through 05 in order. If you rerun 01 later, rerun 03 afterward to restore the contact update grant.
+
+Preview sample data at `http://127.0.0.1:8090/?demo=1` after running `python -m http.server 8090 --bind 127.0.0.1 --directory docs`. The demo is read-only and uses fictional records. See [PREVIEW.md](PREVIEW.md) for screenshots.
+
+Use **Install app** on a supported browser, or Share > Add to Home Screen on iPhone/iPad. Serve the production app over HTTPS. The manifest uses relative paths to support GitHub Pages subdirectories. The service worker caches only the public app shell; shared data and sign-in require a connection. Installation support varies by browser; see [MDN's installability guide](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable).
+
+## Promotion expiration and teammate access
+
+Run [04-promotion-expiration.sql](supabase/04-promotion-expiration.sql), then [05-team-management.sql](supabase/05-team-management.sql) in Supabase for this update. Both are safe to rerun. Migration 05 grants `kevndrc@gmail.com` administrator access, as requested.
+
+Each product has an optional **Promotion expiration date**. It stays in the active tracker through that date in America/New_York and appears in **Completed** the next day, retaining all notes, stages, and links. The app derives this from the date on every load and refresh; there is no destructive move or scheduled database job. Completed promotions remain editable and exportable. Clear the expiration date or move it into the future to restore a product to the active tracker. Active dashboard counts and team assignments exclude completed promotions.
+
+As the administrator, open **Team > Add teammate** and enter a display name and sign-in email. This grants workspace access and adds the name to assignment dropdowns on all devices after refresh. It does not automatically send an invitation email; the new teammate signs in normally. Duplicate emails and display names are rejected. Regular teammates cannot add members or grant themselves administrator rights. Membership changes use a restricted database function; browser credentials never include an admin secret.
 
 ## Set up shared storage
 
 1. Create a Supabase project at https://supabase.com/dashboard.
-2. In its SQL Editor, run [01-schema.sql](supabase/01-schema.sql), then [02-import-workbook.sql](supabase/02-import-workbook.sql). Both scripts can be rerun for this app schema without replacing existing product records. The schema script refreshes this app's policies and trigger and ensures the four initial teammates are present.
+2. In its SQL Editor, run [01-schema.sql](supabase/01-schema.sql), then [02-import-workbook.sql](supabase/02-import-workbook.sql), then [03-workspace-upgrade.sql](supabase/03-workspace-upgrade.sql), [04-promotion-expiration.sql](supabase/04-promotion-expiration.sql), and [05-team-management.sql](supabase/05-team-management.sql). The scripts can be rerun for this app schema without replacing existing product records. The schema script refreshes this app's policies and trigger and ensures the four initial teammates are present.
 3. In project settings, copy the **project URL** and **publishable key** (`sb_publishable_…`). A legacy `anon` key also works. Never use a secret or `service_role` key in this app.
 4. Under Authentication → URL Configuration, set the Site URL to `https://Harrykd33.github.io/Amain-Heli-Promo-App/` and add the same exact URL to allowed Redirect URLs. If GitHub reports a different Pages URL or you use a custom domain, use that URL instead. Add your local URL only if testing local sign-in.
 5. Keep email authentication enabled and email confirmation required. Configure a custom SMTP provider for the team: Supabase's default email service may only send to project-authorized addresses and has strict limits. See [Supabase SMTP setup](https://supabase.com/docs/guides/auth/auth-smtp).
@@ -28,7 +42,7 @@ If you use another email yourself, add it in the Supabase SQL Editor:
 insert into public.team_members(email) values ('your-email@example.com') on conflict do nothing;
 ```
 
-Members open the app, enter an approved email, and follow the sign-in link. Adding an email to this list does not send an invitation automatically. Unlisted users cannot read or write team records, even if they obtain an authentication session. Only a database administrator can change membership. To remove access:
+Members open the app, enter an approved email, and follow the sign-in link. Adding an email to this list does not send an invitation automatically. Unlisted users cannot read or write team records, even if they obtain an authentication session. The configured team administrator can add teammates in the app. Removing membership still requires a database administrator. To remove access:
 
 ```sql
 delete from public.team_members where email='former-member@example.com';
@@ -48,14 +62,17 @@ Alternatively, configure Pages to deploy `docs/` from the main branch and enter 
 ## Local preview and checks
 
 ```powershell
-python -m http.server 8080 --directory docs
+python -m http.server 8090 --bind 127.0.0.1 --directory docs
 ```
 
-Visit `http://localhost:8080`. Without configuration, select **Explore the demo**. To test real sign-in locally, enter your public Supabase settings in `docs/config.js` and allow `http://localhost:8080/` as a Supabase redirect URL.
+Visit `http://127.0.0.1:8090`. Without configuration, select **Explore the demo**. To test real sign-in locally, enter your public Supabase settings in `docs/config.js` and allow `http://localhost:8080/` as a Supabase redirect URL.
 
 ```powershell
 python tools/build.py
 node --test tests/model.test.mjs
+python tools/check-ui.py
+python tools/check-workspace.py
+python tools/check-saves.py
 ```
 
 Optional database policy checks use an embedded PostgreSQL engine: run `npm install`, then `npm run test:database`. These validate the SQL import, access restrictions, author stamps, and concurrent-save protection locally. They do not replace checking the connected Supabase project's configuration.

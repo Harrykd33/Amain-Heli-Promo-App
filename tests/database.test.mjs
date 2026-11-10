@@ -13,11 +13,14 @@ test('database restricts membership and prevents stale saves',async()=>{
   // Recover a partially completed setup where only the first table exists.
   await db.exec('CREATE TABLE public.team_members(email text PRIMARY KEY CHECK(email=lower(email)), added_at timestamptz NOT NULL DEFAULT now())');
   await db.exec(schema);
+  const upgrade=await readFile(new URL('../supabase/03-workspace-upgrade.sql',import.meta.url),'utf8');await db.exec(upgrade);await db.exec(upgrade);
+  const expiration=await readFile(new URL('../supabase/04-promotion-expiration.sql',import.meta.url),'utf8');await db.exec(expiration);await db.exec(expiration);
+  const management=await readFile(new URL('../supabase/05-team-management.sql',import.meta.url),'utf8');await db.exec(management);await db.exec(management);
   const seed=await readFile(new URL('../supabase/02-import-workbook.sql',import.meta.url),'utf8');await db.exec(seed);await db.exec(seed);
   assert.equal((await db.query('select count(*)::int as count from products')).rows[0].count,6);
   assert.equal((await db.query('select count(*)::int as count from manufacturers')).rows[0].count,33);
   await db.query("update products set notes='Preserve this edit' where id='import-5'");
-  await db.exec(schema);await db.exec(seed);
+  await db.exec(schema);await db.exec(seed);await db.exec(upgrade);await db.exec(management);
   assert.equal((await db.query("select notes from products where id='import-5'")).rows[0].notes,'Preserve this edit');
   assert.equal((await db.query('select count(*)::int as count from products')).rows[0].count,6);
   // Restore the revision expected below without changing the save trigger.
@@ -27,17 +30,35 @@ test('database restricts membership and prevents stale saves',async()=>{
   await db.exec('RESET ROLE; SET ROLE authenticated');
   await db.query("SELECT set_config('request.jwt.claims',$1,false)",[JSON.stringify({email:'outsider@example.com'})]);
   assert.equal((await db.query('select * from products')).rows.length,0);
+  await assert.rejects(db.query("select public.add_team_member('Intruder','intruder@example.com')"),/administrator/);
+  assert.equal((await db.query('select * from marketing_meetings')).rows.length,0);
   await assert.rejects(db.query("insert into products(manufacturer,product) values('Brand','Unauthorized')"),/row-level security/);
   await db.query("SELECT set_config('request.jwt.claims',$1,false)",[JSON.stringify({email:'kevndrc@gmail.com'})]);
   assert.equal((await db.query('select * from products')).rows.length,6);
-  assert.deepEqual((await db.query('select email from team_members')).rows,[{email:'kevndrc@gmail.com'}]);
+  assert.equal((await db.query('select email from team_members')).rows.length,4);
+  assert.equal((await db.query('select public.is_team_admin() as allowed')).rows[0].allowed,true);
+  await db.query("select public.add_team_member('New Pilot','NEWPILOT@example.com')");
+  assert.equal((await db.query("select display_name from team_members where email='newpilot@example.com'")).rows[0].display_name,'New Pilot');
+  await assert.rejects(db.query("insert into team_admins(email) values('newpilot@example.com')"),/permission denied/);
+  await db.query("update products set promotion_expires_on='2026-11-10' where id='import-6'");
+  assert.equal((await db.query("select count(*)::int as n from products where promotion_expires_on < date '2026-11-11'")).rows[0].n,1);
   await assert.rejects(db.query("insert into team_members(email) values('outsider@example.com')"),/permission denied/);
+  await db.query("insert into marketing_meetings(title,meeting_date,notes) values('Planning','2026-11-10','Original')");
+  const meeting=await db.query("update marketing_meetings set notes='Updated',revision=99,updated_by='spoofed' where title='Planning' and revision=1 returning *");
+  assert.equal(meeting.rows[0].revision,2);assert.equal(meeting.rows[0].updated_by,'kevndrc@gmail.com');
+  assert.equal((await db.query("update marketing_meetings set notes='Stale' where title='Planning' and revision=1 returning id")).rows.length,0);
+  const brand=await db.query("update manufacturers set contact_name='Partner',email='partner@example.com',notes='Contact notes' where name='SAB' and revision=1 returning *");
+  assert.equal(brand.rows[0].revision,2);assert.equal(brand.rows[0].contact_name,'Partner');
+  assert.equal((await db.query("update manufacturers set notes='Stale' where name='SAB' and revision=1 returning name")).rows.length,0);
   const first=await db.query("update products set notes='First save',revision=999,updated_by='spoofed' where id='import-5' and revision=1 returning *");
   assert.equal(first.rows[0].revision,2);assert.equal(first.rows[0].updated_by,'kevndrc@gmail.com');
   const stale=await db.query("update products set notes='Stale overwrite' where id='import-5' and revision=1 returning id");assert.equal(stale.rows.length,0);
   await db.query("insert into products(manufacturer,product,eta) values('New Brand','New Product',null)");
   await assert.rejects(db.query("delete from products where id='import-5'"),/permission denied/);
-  await db.exec('RESET ROLE');await db.query("delete from team_members where email='kevndrc@gmail.com'");await db.exec('SET ROLE authenticated');
+  await db.query("SELECT set_config('request.jwt.claims',$1,false)",[JSON.stringify({email:'newpilot@example.com'})]);
+  assert.equal((await db.query('select * from products')).rows.length,7);
+  await assert.rejects(db.query("select public.add_team_member('Unauthorized','no@example.com')"),/administrator/);
+  await db.exec('RESET ROLE');await db.query("delete from team_members where email='kevndrc@gmail.com'");await db.exec('SET ROLE authenticated');await db.query("SELECT set_config('request.jwt.claims',$1,false)",[JSON.stringify({email:'kevndrc@gmail.com'})]);
   assert.equal((await db.query('select * from products')).rows.length,0);
  }finally{await db.close();}
 });

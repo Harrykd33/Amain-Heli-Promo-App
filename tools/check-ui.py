@@ -8,7 +8,7 @@ with sync_playwright() as p:
     page=browser.new_page(viewport={'width':1440,'height':1080},device_scale_factor=1)
     errors=[]; page.on('pageerror',lambda e:errors.append(str(e)))
     page.route('**/config.js',lambda route:route.fulfill(content_type='text/javascript',body='window.FLIGHT_TEAM_CONFIG={supabaseUrl:"",supabasePublishableKey:""};'))
-    page.goto('http://localhost:8080/');page.get_by_role('button',name='Explore the demo').click()
+    page.goto('http://127.0.0.1:8090/');page.get_by_role('button',name='Explore the demo').click()
     page.get_by_role('heading',name='The product hangar.').wait_for()
     assert page.locator('.product-card').count()==3
     page.screenshot(path=str(out/'desktop.png'),full_page=True)
