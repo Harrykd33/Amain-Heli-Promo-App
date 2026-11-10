@@ -1,0 +1,1 @@
+{"name":"amain-flight-team","private":true,"type":"module","scripts":{"test":"node --test tests/model.test.mjs","test:database":"node --test tests/database.test.mjs","build":"python tools/build.py"},"devDependencies":{"@electric-sql/pglite":"0.5.16"}}

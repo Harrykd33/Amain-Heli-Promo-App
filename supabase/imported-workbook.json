@@ -1,0 +1,324 @@
+{
+  "products": [
+    {
+      "status": "On track",
+      "manufacturer": "Goosky",
+      "product": "Rs5 Ultra",
+      "description": "Heli Kit",
+      "eta": "2026-09-26",
+      "received": "2026-09-26",
+      "assigned": "Kevin",
+      "unbox": "Done",
+      "build": "In progress",
+      "flights": "",
+      "review": "",
+      "editing": "In progress",
+      "fb": "Done",
+      "ig": "Done",
+      "yt": "Done",
+      "links": "",
+      "id": "import-5",
+      "notes": ""
+    },
+    {
+      "status": "Blocked",
+      "manufacturer": "Goosky",
+      "product": "Rs6 Ultra ( Embargo)",
+      "description": "Kit",
+      "eta": "2026-05-15",
+      "received": "2026-05-22",
+      "assigned": "Kevin",
+      "unbox": "Done",
+      "build": "Done",
+      "flights": "Done",
+      "review": "Done",
+      "editing": "Not started",
+      "fb": "",
+      "ig": "",
+      "yt": "",
+      "links": "",
+      "id": "import-6",
+      "notes": ""
+    },
+    {
+      "status": "In progress",
+      "manufacturer": "FrSky",
+      "product": "Surface radio VX10",
+      "description": "Radio",
+      "eta": "2026-05-13",
+      "received": "2026-05-14",
+      "assigned": "Kevin",
+      "unbox": "Done",
+      "build": "N/A",
+      "flights": "N/A",
+      "review": "In progress",
+      "editing": "Not started",
+      "fb": "",
+      "ig": "",
+      "yt": "",
+      "links": "",
+      "id": "import-7",
+      "notes": ""
+    },
+    {
+      "status": "In progress",
+      "manufacturer": "FrSky",
+      "product": "X20 RS + MC30 Gimbals",
+      "description": "Radio",
+      "eta": "2026-05-13",
+      "received": "2026-05-14",
+      "assigned": "Kevin",
+      "unbox": "Done",
+      "build": "N/A",
+      "flights": "",
+      "review": "In progress",
+      "editing": "In progress",
+      "fb": "",
+      "ig": "",
+      "yt": "",
+      "links": "",
+      "id": "import-8",
+      "notes": ""
+    },
+    {
+      "status": "On track",
+      "manufacturer": "Goosky",
+      "product": "Rs6 Ultra (Embargo)",
+      "description": "Heli Kit",
+      "eta": "2026-09-19",
+      "received": "2026-09-19",
+      "assigned": "Frank",
+      "unbox": "N/A",
+      "build": "N/A",
+      "flights": "Done",
+      "review": "In progress",
+      "editing": "",
+      "fb": "",
+      "ig": "",
+      "yt": "",
+      "links": "",
+      "id": "import-9",
+      "notes": ""
+    },
+    {
+      "status": "In progress",
+      "manufacturer": "XLPower",
+      "product": "Stratos 700",
+      "description": "Heli Kit",
+      "eta": "",
+      "received": "",
+      "assigned": "Jason",
+      "unbox": "",
+      "build": "Done",
+      "flights": "",
+      "review": "In progress",
+      "editing": "",
+      "fb": "",
+      "ig": "",
+      "yt": "",
+      "links": "",
+      "id": "import-10",
+      "notes": ""
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "SAB",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "TRON",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "XLPower",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "OMP Hobby",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Goosky",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Align",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Mikado",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Blade",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Soxos",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Miniature Aircraft",
+      "category": "Helicopter",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "FrSky",
+      "category": "Electronics",
+      "notes": "",
+      "discount": "Jason B to Inquire"
+    },
+    {
+      "name": "Hobbywing",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "XDFLY",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Scorpion Power",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Xnova",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Kontronik",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "YGE",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Spirit System",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Futaba",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Spektrum",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "MKS",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "KST",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Theta",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Savox",
+      "category": "Electronics",
+      "notes": "",
+      "discount": "Yes"
+    },
+    {
+      "name": "Vantac",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Castle Creations",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "iKON / Brain",
+      "category": "Electronics",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "RotorTech",
+      "category": "Blades",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Venture Blades",
+      "category": "Blades",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Azure Power",
+      "category": "Blades",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "Rail Blades",
+      "category": "Blades",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "MS Composit",
+      "category": "Blades",
+      "notes": "",
+      "discount": ""
+    },
+    {
+      "name": "NHP",
+      "category": "Blades",
+      "notes": "",
+      "discount": ""
+    }
+  ]
+}
