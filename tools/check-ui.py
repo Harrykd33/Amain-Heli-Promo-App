@@ -21,7 +21,7 @@ with sync_playwright() as p:
     page.keyboard.press('Escape')
     page.get_by_role('button',name='Team',exact=True).click()
     assert page.locator('.team-card').count()>=4
-    page.get_by_role('button',name='Brands',exact=True).click()
+    page.get_by_role('button',name='Brands & Contacts',exact=True).click()
     assert page.locator('.brand-card').count()==3
     page.get_by_role('button',name='Add brand',exact=False).click()
     assert page.get_by_role('button',name='Add brand',exact=True).is_disabled()
