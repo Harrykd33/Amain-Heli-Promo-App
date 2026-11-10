@@ -9,14 +9,10 @@ with sync_playwright() as p:
     errors=[]; page.on('pageerror',lambda e:errors.append(str(e)))
     page.route('**/config.js',lambda route:route.fulfill(content_type='text/javascript',body='window.FLIGHT_TEAM_CONFIG={supabaseUrl:"",supabasePublishableKey:""};'))
     page.goto('http://127.0.0.1:8090/');page.get_by_role('button',name='Explore the demo').click()
-    page.get_by_role('heading',name='The product hangar.').wait_for()
+    page.get_by_role('heading',name='Product launch pad.').wait_for()
     assert page.locator('.product-card').count()==3
     page.screenshot(path=str(out/'desktop.png'),full_page=True)
-    page.get_by_role('textbox',name='Search products').fill('Falcon')
-    assert page.locator('.product-card').count()==1
-    page.get_by_role('textbox',name='Search products').fill('no-such-product')
-    assert page.locator('.product-card').count()==0
-    page.get_by_role('button',name='Clear filters').click()
+    assert page.locator('#search').count()==0
     page.get_by_role('button',name='Blocked',exact=True).click()
     assert page.locator('.product-card').count()==1
     page.get_by_role('button',name='View & edit').click()
@@ -25,7 +21,7 @@ with sync_playwright() as p:
     page.keyboard.press('Escape')
     page.get_by_role('button',name='Team',exact=True).click()
     assert page.locator('.team-card').count()>=4
-    page.get_by_role('button',name='Brand',exact=True).click()
+    page.get_by_role('button',name='Brands',exact=True).click()
     assert page.locator('.brand-card').count()==3
     page.get_by_role('button',name='Add brand',exact=False).click()
     assert page.get_by_role('button',name='Add brand',exact=True).is_disabled()
@@ -51,4 +47,4 @@ with sync_playwright() as p:
     assert 'Falcon 700' in (out/'demo-export.csv').read_text(encoding='utf-8-sig')
     assert not errors,errors
     browser.close()
-    print(json.dumps({'desktop':'passed','mobile':'passed at 390px','search_and_filters':'passed','dialogs_and_unsaved_changes':'passed','export':'passed','browser_errors':errors}))
+    print(json.dumps({'desktop':'passed','mobile':'passed at 390px','filters':'passed','dialogs_and_unsaved_changes':'passed','export':'passed','browser_errors':errors}))

@@ -1,9 +1,9 @@
-export const STAGES=['unbox','build','flights','review','editing','fb','ig','yt'];
-export const LABELS={unbox:'Unboxing',build:'Build video',flights:'Flights',review:'Review',editing:'Editing',fb:'Facebook',ig:'Instagram',yt:'YouTube'};
+export const STAGES=['unbox','build','flights','review','tutorial','editing','fb','ig','yt'];
+export const LABELS={unbox:'Unboxing',build:'Build video',flights:'Flights',review:'Review vid/Blog',tutorial:'Tutorial',editing:'Editing',fb:'Facebook',ig:'Instagram',yt:'YouTube'};
 export const STATUSES=['On track','In progress','Blocked','On hold'];
 export const PROGRESS=['','Not started','In progress','Done','N/A'];
 export const PEOPLE=['Jason','Frank','Kevin','Danthell'];
-export function blank(){return {status:'On track',manufacturer:'',product:'',description:'',eta:'',received:'',promotion_expires_on:'',assigned:'',unbox:'',build:'',flights:'',review:'',editing:'',fb:'',ig:'',yt:'',links:'',notes:''};}
+export function blank(){return {status:'On track',manufacturer:'',product:'',description:'',eta:'',received:'',promotion_expires_on:'',assigned:'',unbox:'',build:'',flights:'',review:'',tutorial:'',editing:'',fb:'',ig:'',yt:'',links:'',notes:''};}
 export function completion(p){const s=STAGES.filter(k=>p[k]!=='N/A');return {done:s.filter(k=>p[k]==='Done').length,total:s.length};}
 export function filtered(products,{query='',status='',assigned='',manufacturer=''}={}){const q=query.toLowerCase().trim();return products.filter(p=>(!q||[p.product,p.manufacturer,p.description,p.assigned,p.notes].join(' ').toLowerCase().includes(q))&&(!status||p.status===status)&&(!assigned||(assigned==='__unassigned'?!p.assigned:p.assigned===assigned))&&(!manufacturer||p.manufacturer===manufacturer));}
 export function validate(p){

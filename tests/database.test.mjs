@@ -16,6 +16,7 @@ test('database restricts membership and prevents stale saves',async()=>{
   const upgrade=await readFile(new URL('../supabase/03-workspace-upgrade.sql',import.meta.url),'utf8');await db.exec(upgrade);await db.exec(upgrade);
   const expiration=await readFile(new URL('../supabase/04-promotion-expiration.sql',import.meta.url),'utf8');await db.exec(expiration);await db.exec(expiration);
   const management=await readFile(new URL('../supabase/05-team-management.sql',import.meta.url),'utf8');await db.exec(management);await db.exec(management);
+  const tutorial=await readFile(new URL('../supabase/07-production-tutorial.sql',import.meta.url),'utf8');await db.exec(tutorial);await db.exec(tutorial);
   const seed=await readFile(new URL('../supabase/02-import-workbook.sql',import.meta.url),'utf8');await db.exec(seed);await db.exec(seed);
   assert.equal((await db.query('select count(*)::int as count from products')).rows[0].count,6);
   assert.equal((await db.query('select count(*)::int as count from manufacturers')).rows[0].count,33);
