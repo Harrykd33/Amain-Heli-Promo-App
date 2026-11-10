@@ -72,3 +72,8 @@ dialog:has(.compact-product-form){width:min(920px,calc(100% - 32px))}.compact-pr
 @media(prefers-color-scheme:dark){.badge.blue{background:#183f65;color:#9accff}.promotion-date.expired{color:#9accff}}
 @media(max-width:760px){main#main{padding-top:22px}.page-heading h1{font-size:28px}.stats>.stat-card{padding:12px}.filters select{min-width:120px}.compact-product-form .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.compact-product-form .dialog-content{padding:16px}.compact-product-form .form-grid .full{grid-column:1/-1}}
 @media(max-width:420px){.compact-product-form .form-grid{grid-template-columns:1fr}}
+
+/* Supplied day/night brand headers and compact partner directory. */
+.brand picture{display:block;width:100%}.brand-logo,.sidebar .brand-logo{display:block;width:100%;height:auto;border-radius:8px}.gate .brand picture{max-width:480px}.gate .brand-logo{width:100%}
+.brand-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px;align-items:start}.brand-card{padding:16px}.brand-card h2{font-size:18px;margin:0 0 10px}.brand-card p{font-size:12px;line-height:1.5}.brand-card .text-button{margin-top:6px;min-height:36px}.contact-summary{padding:10px 0}.contact-summary h3{font-size:13px}.contact-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 10px;font-size:12px}.contact-links>*{min-width:0;overflow-wrap:anywhere}.add-contact-card{margin-top:8px;min-height:36px;padding:8px 12px;font-size:11px}
+@media(max-width:760px){.sidebar .brand{max-width:300px}.brand-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}}
