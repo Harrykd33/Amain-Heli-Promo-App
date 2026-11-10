@@ -41,8 +41,27 @@ h1{font-size:38px;letter-spacing:-1.8px}.page-heading .eyebrow{color:#668d81}.pa
 @media(prefers-color-scheme:dark){.section-top h2 span,.nav-item small{background:var(--soft);color:var(--ink)}.card-footer .text-button{color:var(--green)}.team-avatars span{background:var(--soft)!important;color:var(--ink)}}
 
 /* Supplied promotion identity includes its own team label. */
-.brand-logo,.sidebar .brand-logo{width:214px;height:auto;padding:0;border-radius:8px;background:#000}
+.brand-logo,.sidebar .brand-logo{width:214px;height:auto;padding:0;border-radius:0;background:transparent}
 .gate .brand-logo{width:370px}
 .promotion-date{font-size:11px;color:var(--muted);margin:10px 0 0}
 .promotion-date.expired{color:var(--orange)}
 @media(max-width:760px){.sidebar .brand-logo{width:240px}.promotion-date{font-size:12px}}
+
+/* Brand palette and readable, compact detail cards. */
+@media(prefers-color-scheme:light){
+ :root{--bg:#f7f6f2;--surface:#fff;--soft:#f0f3f6;--ink:#0b293b;--muted:#546877;--green:#12394f;--orange:#f56600;--line:#dce2e6}
+ body{background:radial-gradient(ellipse at 100% 0%,#fff1e6 0,transparent 46%),var(--bg)}
+ .primary{background:#f56600;border-color:#f56600;color:#fff;box-shadow:0 4px 12px #f566001c}.primary:hover{background:#d95100;border-color:#d95100}
+ .nav-item.active{background:#fff0e5;color:#10354b;box-shadow:inset 3px 0 #f56600}
+ .stats>.stat-card[aria-pressed=true]{background:linear-gradient(135deg,#fff,#fff5ec);border-color:#f4aa76}
+ .page-heading .eyebrow,.manufacturer,.brand-team{color:#455d70}
+ .brand-card:before{background:linear-gradient(90deg,#0c3046,#ff6900)}
+ .progress-track>div{background:linear-gradient(90deg,#133a50,#47728a)}
+ .chip.selected{background:#fff0e5;border-color:#f6c6a4;color:#843400}
+ .brand-monogram,.person-badge,.crew-avatar{background:#edf2f5;color:#14384d}
+ .badge.green{background:#e8f4eb;color:#206135}.badge.amber{background:#fff4cc;color:#775a00}.badge.red{background:#fde9e8;color:#a52c2c}
+ .card-footer .text-button{color:#143c55}.mini-stage.done{color:#226d40}.mini-stage.working{color:#8b6400}
+}
+.product-card{padding:17px 18px 0}.card-top{margin-bottom:10px}.product-title h3{font-size:21px}.description{font-size:14px;min-height:0;padding-top:5px}.promotion-date{font-size:12px;margin-top:6px}.card-meta{margin:12px 0 15px;font-size:13px}.card-meta b{font-size:13px}.person-badge{width:25px;height:25px;font-size:12px}.arrival,.arrival strong{font-size:12px}.progress-heading{font-size:12px}.progress-track{margin-top:8px}.stage-list{margin:11px 0 13px;gap:7px;flex-wrap:wrap;justify-content:flex-start}.mini-stage{font-size:12px;gap:4px;margin-right:5px}.mini-stage i{font-size:15px}.card-footer{padding:7px 0}.social{font-size:11px;padding:4px 6px}.card-footer .text-button{font-size:13px;min-height:38px}.badge{font-size:12px;padding:6px 8px;gap:7px}.manufacturer{font-size:11px}.dot{width:11px;height:11px}.dot.red{background:#e74848}.dot.green{background:#29a65b}.dot.amber{background:#efbd19}.badge .dot{width:12px;height:12px;box-shadow:0 0 0 3px #ffffff14}.stats .dot{width:12px;height:12px}
+.team-card,.brand-card{padding:20px}.brand-monogram{margin-bottom:14px}.brand-card p{font-size:14px}.contact-summary{border-top:1px solid var(--line);padding:12px 0}.contact-summary h3{font-size:15px;margin-bottom:7px}.contact-links{display:flex;flex-wrap:wrap;gap:9px 14px;font-size:13px;overflow-wrap:anywhere;align-items:center}.contact-links a{color:var(--green);text-underline-offset:3px}.contact-links span{color:var(--muted)}.contact-summary p{margin-top:7px;white-space:pre-wrap}.add-contact-card{margin-top:12px}.contact-fields{border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0;min-width:0}.contact-fields legend{font-size:13px;font-weight:700;padding:0 7px}.contact-fields .contact-links{margin-top:13px}.facebook-link{font-weight:600}.contact-fields label{font-size:13px}
+@media(max-width:760px){.product-card{padding:17px 18px 0}.card-top{margin-bottom:9px}.card-meta{margin:11px 0 14px}.stage-list{margin:11px 0 12px;gap:6px}.card-footer{padding:6px 0}.card-footer .text-button{font-size:13px;min-height:40px}.contact-fields{padding:13px}.brand-card{padding:20px}}

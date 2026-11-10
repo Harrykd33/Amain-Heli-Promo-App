@@ -42,8 +42,17 @@ with sync_playwright() as p:
  page.locator('[data-nav=contacts]').click()
  assert page.locator('.brand-card').count()==3
  page.locator('[data-brand="0"]').click()
- assert page.get_by_label('Contact email').input_value()=='partner@example.com'
+ assert page.get_by_label('Contact email',exact=True).first.input_value()=='partner@example.com'
  assert page.get_by_role('button',name='Save contact').is_disabled()
+ assert page.get_by_label('Category',exact=True).count()==0
+ assert page.get_by_label('AMain discount details').count()==0
+ assert page.locator('.contact-fields').count()==2
+ page.get_by_role('button',name='Add another contact').click()
+ assert page.locator('.contact-fields').count()==3
+ fb=page.locator('#brand-form a.facebook-link').first
+ assert fb.get_attribute('href')=='https://www.facebook.com/AMainHobbies'
+ assert fb.get_attribute('target')=='_blank'
+ page.once('dialog',lambda d:d.accept())
  page.get_by_role('button',name='Cancel',exact=True).click()
  page.locator('[data-nav=meetings]').click()
  assert page.locator('.meeting-card').count()==1

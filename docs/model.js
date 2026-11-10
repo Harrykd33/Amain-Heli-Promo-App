@@ -20,3 +20,8 @@ export function safeLinks(value){return value.split(/\s+/).filter(s=>{try{return
 // Promotion dates are inclusive and use the team's Eastern time zone on every device.
 export function promotionToday(now=new Date()){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);}
 export function isCompleted(product,today=promotionToday()){return Boolean(product.promotion_expires_on&&product.promotion_expires_on<today);}
+
+export function facebookLink(value){
+ const raw=String(value||'').trim();if(!raw)return '';
+ try{const url=new URL(/^https?:\/\//i.test(raw)?raw:'https://'+raw);const host=url.hostname.toLowerCase();if(url.username||url.password||url.port||!['facebook.com','www.facebook.com','m.facebook.com','fb.com','www.fb.com','fb.me'].includes(host))return '';url.protocol='https:';return url.href;}catch{return '';}
+}

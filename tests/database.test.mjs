@@ -19,6 +19,13 @@ test('database restricts membership and prevents stale saves',async()=>{
   const seed=await readFile(new URL('../supabase/02-import-workbook.sql',import.meta.url),'utf8');await db.exec(seed);await db.exec(seed);
   assert.equal((await db.query('select count(*)::int as count from products')).rows[0].count,6);
   assert.equal((await db.query('select count(*)::int as count from manufacturers')).rows[0].count,33);
+  await db.query("update manufacturers set contact_name='Original partner',email='original@example.com' where name='TRON'");
+  const contactsMigration=await readFile(new URL('../supabase/06-brand-contacts.sql',import.meta.url),'utf8');await db.exec(contactsMigration);
+  assert.equal((await db.query("select contacts from manufacturers where name='TRON'")).rows[0].contacts[0].name,'Original partner');
+  await db.query("update manufacturers set contacts='[{\"name\":\"One\"},{\"name\":\"Two\"}]'::jsonb where name='TRON'");
+  await db.exec(contactsMigration);
+  assert.equal((await db.query("select contacts from manufacturers where name='TRON'")).rows[0].contacts.length,2);
+  await assert.rejects(db.query("update manufacturers set contacts='{}'::jsonb where name='TRON'"),/check constraint/);
   await db.query("update products set notes='Preserve this edit' where id='import-5'");
   await db.exec(schema);await db.exec(seed);await db.exec(upgrade);await db.exec(management);
   assert.equal((await db.query("select notes from products where id='import-5'")).rows[0].notes,'Preserve this edit');
@@ -47,8 +54,9 @@ test('database restricts membership and prevents stale saves',async()=>{
   const meeting=await db.query("update marketing_meetings set notes='Updated',revision=99,updated_by='spoofed' where title='Planning' and revision=1 returning *");
   assert.equal(meeting.rows[0].revision,2);assert.equal(meeting.rows[0].updated_by,'kevndrc@gmail.com');
   assert.equal((await db.query("update marketing_meetings set notes='Stale' where title='Planning' and revision=1 returning id")).rows.length,0);
-  const brand=await db.query("update manufacturers set contact_name='Partner',email='partner@example.com',notes='Contact notes' where name='SAB' and revision=1 returning *");
-  assert.equal(brand.rows[0].revision,2);assert.equal(brand.rows[0].contact_name,'Partner');
+  const brandRevision=(await db.query("select revision from manufacturers where name='SAB'")).rows[0].revision;
+  const brand=await db.query("update manufacturers set contact_name='Partner',email='partner@example.com',notes='Contact notes' where name='SAB' and revision=$1 returning *",[brandRevision]);
+  assert.equal(brand.rows[0].revision,brandRevision+1);assert.equal(brand.rows[0].contact_name,'Partner');
   assert.equal((await db.query("update manufacturers set notes='Stale' where name='SAB' and revision=1 returning name")).rows.length,0);
   const first=await db.query("update products set notes='First save',revision=999,updated_by='spoofed' where id='import-5' and revision=1 returning *");
   assert.equal(first.rows[0].revision,2);assert.equal(first.rows[0].updated_by,'kevndrc@gmail.com');

@@ -27,13 +27,22 @@ with sync_playwright() as p:
  page.locator('[data-brand="0"]').click()
  page.get_by_label('Contact name',exact=True).fill('Alex Partner')
  page.get_by_label('Contact email').fill('alex@example.com')
- page.get_by_label('Manufacturer notes').fill('Follow up on the launch.')
+ page.get_by_label('Brand notes').fill('Follow up on the launch.')
+ page.get_by_label('Facebook',exact=True).fill('https://example.com/not-facebook')
+ page.get_by_role('button',name='Save contact').click()
+ assert 'Facebook page link' in page.locator('#form-error').inner_text()
+ page.get_by_label('Facebook',exact=True).fill('www.facebook.com/AMainHobbies')
+ page.get_by_role('button',name='Add another contact').click()
+ page.get_by_label('Contact name',exact=True).nth(1).fill('Media contact')
+ page.get_by_label('Contact email',exact=True).nth(1).fill('media@example.com')
  page.get_by_role('button',name='Save contact').click()
  page.wait_for_function('!document.querySelector("dialog").open')
- assert page.evaluate('testTables.manufacturers[0].contact_name')=='Alex Partner'
+ assert page.evaluate('testTables.manufacturers[0].contacts[0].name')=='Alex Partner'
  assert page.evaluate('testTables.manufacturers[0].revision')==2
+ assert len(page.evaluate('testTables.manufacturers[0].contacts'))==2
+ assert page.evaluate('testTables.manufacturers[0].contacts[0].facebook')=='https://www.facebook.com/AMainHobbies'
  page.locator('[data-brand="0"]').click()
- assert page.get_by_label('Contact email').input_value()=='alex@example.com'
+ assert page.get_by_label('Contact email',exact=True).first.input_value()=='alex@example.com'
  page.get_by_role('button',name='Cancel',exact=True).click()
  page.locator('[data-nav=meetings]').click()
  page.get_by_role('button',name='Add meeting').click()
@@ -60,7 +69,7 @@ with sync_playwright() as p:
  page.get_by_role('button',name='Add product',exact=False).click()
  assert 'New Pilot' in page.get_by_label('Assigned to').inner_text()
  page.get_by_label('Product / item *').fill('Promotion test')
- page.get_by_label('Manufacturer *').select_option('Test brand')
+ page.get_by_label('Brand *').select_option('Test brand')
  page.get_by_label('Promotion expiration date').fill('2026-01-01')
  page.get_by_role('button',name='Add product',exact=False).last.click()
  page.wait_for_function('!document.querySelector("dialog").open')

@@ -25,10 +25,10 @@ with sync_playwright() as p:
     page.keyboard.press('Escape')
     page.get_by_role('button',name='Team',exact=True).click()
     assert page.locator('.team-card').count()>=4
-    page.get_by_role('button',name='Manufacturers',exact=True).click()
+    page.get_by_role('button',name='Brand',exact=True).click()
     assert page.locator('.brand-card').count()==3
-    page.get_by_role('button',name='Add manufacturer',exact=False).click()
-    assert page.get_by_role('button',name='Add manufacturer',exact=True).is_disabled()
+    page.get_by_role('button',name='Add brand',exact=False).click()
+    assert page.get_by_role('button',name='Add brand',exact=True).is_disabled()
     page.keyboard.press('Escape')
     page.get_by_role('button',name='Products',exact=False).first.click()
     page.get_by_role('button',name='All products',exact=True).click()

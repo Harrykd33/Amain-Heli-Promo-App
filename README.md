@@ -20,6 +20,14 @@ Each product has an optional **Promotion expiration date**. It stays in the acti
 
 As the administrator, open **Team > Add teammate** and enter a display name and sign-in email. This grants workspace access and adds the name to assignment dropdowns on all devices after refresh. It does not automatically send an invitation email; the new teammate signs in normally. Duplicate emails and display names are rejected. Regular teammates cannot add members or grant themselves administrator rights. Membership changes use a restricted database function; browser credentials never include an admin secret.
 
+## Brand Contacts update
+
+Run [06-brand-contacts.sql](supabase/06-brand-contacts.sql) after the earlier migrations, then deploy the updated assets. It preserves the original contact fields and imports them into a list of contacts per brand. Existing category and discount data stays available on the Brand page; Brand Contacts omits those fields.
+
+Use **Brand Contacts > + Add contact** or **+ Add another contact** inside a brand to add more people. Each contact has a name, email, phone, website, Facebook page, and notes. Save the brand to store all contacts together with the existing revision check. Facebook links accept Facebook domains only, normalize to HTTPS, and open in a new tab. The demo shows multiple fictional contacts; saving remains disabled.
+
+The day theme uses off-white surroundings, white cards, navy text, and orange accents. Product cards use tighter spacing, larger detail text, and larger red, yellow, and green status indicators. System dark mode remains available.
+
 ## Set up shared storage
 
 1. Create a Supabase project at https://supabase.com/dashboard.
