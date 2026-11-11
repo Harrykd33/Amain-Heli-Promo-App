@@ -89,3 +89,11 @@ dialog:has(.compact-product-form){width:min(920px,calc(100% - 32px))}.compact-pr
 
 /* Short landscape viewports can scroll the entire sidebar independently. */
 @media(min-width:761px){.sidebar{height:100dvh;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}.sidebar>*{flex-shrink:0}}
+
+.shared-plan{margin-top:20px;border:1px solid var(--line);border-top:3px solid #ff790f;border-radius:12px;padding:18px}.shared-plan h2{margin:8px 0}.shared-plan p{font-size:13px;overflow-wrap:anywhere}.shared-plan dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.shared-plan dl>div{background:var(--soft);border-radius:7px;padding:10px}.shared-plan dt{font-size:11px;color:var(--muted)}.shared-plan dd{margin:5px 0 0;font-size:13px;overflow-wrap:anywhere}.plan-notes{white-space:pre-wrap}.share-actions{flex-wrap:wrap}#share-status{font-size:13px;margin-top:16px}.card-footer{flex-wrap:wrap}
+
+/* Larger detail text and clear, steady status indicators. */
+.team-avatars{flex-wrap:wrap;gap:7px}.team-avatars span{margin-left:0;font-size:12px;width:34px;height:34px}.team-avatars span.online{border-color:#32db80;color:var(--ink);box-shadow:0 0 5px #32db80cc,0 0 13px #32db8070}
+.sync-dot:not(.bad){width:8px;height:8px;background:#31d97c;box-shadow:0 0 5px #31d97ccc,0 0 12px #31d97c80}
+.description,.card-meta,.card-meta b,.arrival,.progress-heading,.stage-list .mini-stage,.social,.badge,.manufacturer,.card-footer .text-button{font-size:13px}.person-badge{font-size:12px}.arrival strong{font-size:13px}.stage-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+label,.contact-fields label,.contact-links,.brand-card p,.team-card>.muted,.crew-heading p,.crew-product small,.shared-plan p,.shared-plan dd,.fine{font-size:14px}.crew-product b{font-size:15px}.contact-summary h3{font-size:16px}.shared-plan dt,label small{font-size:12px}.dialog-content h3 span{font-size:16px}label input,label select,label textarea{font-size:16px}.side-bottom p{font-size:14px}
