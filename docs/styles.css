@@ -97,3 +97,5 @@ dialog:has(.compact-product-form){width:min(920px,calc(100% - 32px))}.compact-pr
 .sync-dot:not(.bad){width:8px;height:8px;background:#31d97c;box-shadow:0 0 5px #31d97ccc,0 0 12px #31d97c80}
 .description,.card-meta,.card-meta b,.arrival,.progress-heading,.stage-list .mini-stage,.social,.badge,.manufacturer,.card-footer .text-button{font-size:13px}.person-badge{font-size:12px}.arrival strong{font-size:13px}.stage-list{grid-template-columns:repeat(2,minmax(0,1fr))}
 label,.contact-fields label,.contact-links,.brand-card p,.team-card>.muted,.crew-heading p,.crew-product small,.shared-plan p,.shared-plan dd,.fine{font-size:14px}.crew-product b{font-size:15px}.contact-summary h3{font-size:16px}.shared-plan dt,label small{font-size:12px}.dialog-content h3 span{font-size:16px}label input,label select,label textarea{font-size:16px}.side-bottom p{font-size:14px}
+
+.shared-plan .plan-header{display:block;width:calc(100% + 36px);max-width:none;height:auto;margin:-18px -18px 18px;border-radius:9px 9px 0 0}
