@@ -84,5 +84,8 @@ dialog:has(.compact-product-form){width:min(920px,calc(100% - 32px))}.compact-pr
 @media(max-width:760px){.sidebar{padding-top:0}.sidebar>.brand{margin:0 -20px;width:calc(100% + 40px);max-width:none}.topbar,dialog::backdrop{backdrop-filter:none}label input,label select,label textarea,.compact-product-form input,.compact-product-form select,.filters select{font-size:16px}}
 
 /* Glowing underline identifies the current navigation tab. */
-.nav-item{position:relative}.nav-item.active::after{content:'';position:absolute;left:12px;right:12px;bottom:1px;height:3px;border-radius:999px;background:#ff790f;box-shadow:0 0 6px #ff790fcc,0 0 14px #ff790f80;pointer-events:none}
+.nav-item{position:relative}.nav-item.active::after{content:'';position:absolute;left:12px;right:12px;bottom:1px;height:3px;border-radius:999px;background:linear-gradient(90deg,transparent,#ff790f 18%,#ff9a36 50%,#ff790f 82%,transparent);filter:drop-shadow(0 0 3px #ff790fcc) drop-shadow(0 0 6px #ff790f80);border-radius:50%;pointer-events:none}
 @media(max-width:760px){.nav-item.active{border-bottom-color:transparent}.nav-item.active::after{bottom:3px}}
+
+/* Short landscape viewports can scroll the entire sidebar independently. */
+@media(min-width:761px){.sidebar{height:100dvh;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}.sidebar>*{flex-shrink:0}}
