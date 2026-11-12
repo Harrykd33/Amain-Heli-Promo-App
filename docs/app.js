@@ -72,11 +72,11 @@ function renderBrands(contacts=false){
 }
 function extensionNotice(){return extensionError?`<div class="notice error">${esc(extensionError)}</div>`:'';}
 function renderMeetings(){
- $('#main').innerHTML=heading('ALIGN. CREATE. TAKE FLIGHT.','Team Notes','Keep the conversation, decisions, and next steps together.',`<button class="primary" id="add-meeting">+ Add meeting</button>`)+extensionNotice()+`<div class="meeting-grid">${meetings.map((m,i)=>`<article class="meeting-card"><span class="eyebrow">${esc(date(m.meeting_date))}</span><h2>${esc(m.title)}</h2><p class="muted">${esc(m.attendees||'Team meeting')}</p><p class="note-preview">${esc(m.notes||'No notes yet.')}</p><div class="meeting-next"><b>Next steps</b><p>${esc(m.actions||'No action items recorded.')}</p></div><button class="text-button" data-meeting="${i}">Open meeting notes &rarr;</button></article>`).join('')||'<div class="empty"><h3>A place for your next big idea</h3><p>Add a meeting to capture discussion, decisions, and action items.</p></div>'}</div>`;
- $('#add-meeting').onclick=()=>openMeeting();document.querySelectorAll('[data-meeting]').forEach(b=>b.onclick=()=>openMeeting(meetings[Number(b.dataset.meeting)]));
+ $('#main').innerHTML=heading('ALIGN. CREATE. TAKE FLIGHT.','Team Notes','Keep the conversation, decisions, and next steps together.',`<div class="notes-actions"><button class="secondary" id="add-note">+ Add note</button><button class="primary" id="add-meeting">+ Add meeting</button></div>`)+extensionNotice()+`<div class="meeting-grid">${meetings.map((m,i)=>`<article class="meeting-card"><span class="eyebrow">${esc(date(m.meeting_date))}</span><h2>${esc(m.title)}</h2><p class="muted">${esc(m.attendees||'Team note')}</p><p class="note-preview">${esc(m.notes||'No notes yet.')}</p><div class="meeting-next"><b>Next steps</b><p>${esc(m.actions||'No action items recorded.')}</p></div><button class="text-button" data-meeting="${i}">Open notes &rarr;</button></article>`).join('')||'<div class="empty"><h3>A place for your next big idea</h3><p>Add a note or meeting to capture ideas, decisions, and action items.</p></div>'}</div>`;
+ $('#add-note').onclick=()=>openMeeting(null,true);$('#add-meeting').onclick=()=>openMeeting();document.querySelectorAll('[data-meeting]').forEach(b=>b.onclick=()=>openMeeting(meetings[Number(b.dataset.meeting)]));
 }
-function openMeeting(m){
- showDialog(`<form id="meeting-form"><div class="dialog-heading"><div><span class="eyebrow">TEAM NOTES</span><h2 id="editor-title">${m?'Meeting details':'New team meeting'}</h2></div><button type="button" data-close class="close" aria-label="Close">&times;</button></div><div class="dialog-content">${demo?'<div class="notice">Read-only sample meeting.</div>':''}<div class="form-grid">${field('title','Meeting title *','text',m?.title||'','required maxlength="500"')}${field('meeting_date','Meeting date *','date',m?.meeting_date||localDate(),'required')}${field('attendees','Attendees','text',m?.attendees||'','maxlength="500"')}</div><label>Discussion & decisions<textarea name="notes" rows="8" maxlength="12000">${esc(m?.notes||'')}</textarea></label><label>Action items & owners<textarea name="actions" rows="5" maxlength="6000" placeholder="Owner / next step / due date">${esc(m?.actions||'')}</textarea></label><p id="form-error" role="alert"></p></div><div class="dialog-actions"><button type="button" class="secondary" data-close>Cancel</button><button type="submit" class="primary" ${demo?'disabled':''}>Save meeting</button></div></form>`);
+function openMeeting(m,note=false){
+ showDialog(`<form id="meeting-form"><div class="dialog-heading"><div><span class="eyebrow">TEAM NOTES</span><h2 id="editor-title">${m?'Note details':note?'New team note':'New team meeting'}</h2></div><button type="button" data-close class="close" aria-label="Close">&times;</button></div><div class="dialog-content">${demo?'<div class="notice">Read-only sample meeting.</div>':''}<div class="form-grid">${field('title',note?'Note title *':'Title *','text',m?.title||'','required maxlength="500"')}${field('meeting_date','Date *','date',m?.meeting_date||localDate(),'required')}${note?'<input type="hidden" name="attendees" value="">':field('attendees','Attendees','text',m?.attendees||'','maxlength="500"')}</div><label>${note?'Note':'Notes & decisions'}<textarea name="notes" rows="8" maxlength="12000">${esc(m?.notes||'')}</textarea></label><label>Action items & owners<textarea name="actions" rows="5" maxlength="6000" placeholder="Owner / next step / due date">${esc(m?.actions||'')}</textarea></label><p id="form-error" role="alert"></p></div><div class="dialog-actions"><button type="button" class="secondary" data-close>Cancel</button><button type="submit" class="primary" ${demo?'disabled':''}>${note?'Save note':'Save changes'}</button></div></form>`);
  $('#meeting-form').onsubmit=e=>saveRecord(e,'marketing_meetings',m);
 }
 function localDate(){const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');}
@@ -199,7 +199,7 @@ async function createPlanImage(p,headerUrl,details,stages){
  const canvas=document.createElement('canvas');canvas.width=1000;
  let ctx=canvas.getContext('2d');const commands=[];let y=0;
  const rect=(x,top,w,h,color)=>commands.push(()=>{ctx.fillStyle=color;ctx.fillRect(x,top,w,h);});
- const label=(value,x,top,width,size=24,bold=false,color='#173447')=>{
+ const label=(value,x,top,width,size=32,bold=false,color='#173447')=>{
  ctx.font=`${bold?'700':'400'} ${size}px Arial, sans-serif`;
  const lines=[];
  for(const paragraph of String(value||'').split('\n')){
@@ -210,13 +210,13 @@ async function createPlanImage(p,headerUrl,details,stages){
  };
  const headerHeight=1000*header.naturalHeight/header.naturalWidth;
  commands.push(()=>ctx.drawImage(header,0,0,1000,headerHeight));y=headerHeight+32;
- y+=label('AMAIN FLIGHT TEAM \u00b7 PROMOTION PLAN',40,y,920,18,true,'#647884')+18;
- y+=label(p.product,40,y,920,38,true)+12;
+ y+=label('AMAIN FLIGHT TEAM \u00b7 PROMOTION PLAN',40,y,920,24,true,'#647884')+18;
+ y+=label(p.product,40,y,920,44,true)+12;
  if(p.description)y+=label(p.description,40,y,920)+24;
- const grid=items=>{for(let i=0;i<items.length;i+=2){const top=y;let height=0;items.slice(i,i+2).forEach(([key,value],col)=>{const x=40+col*468;const start=commands.length;const h=label(key,x+18,top+16,412,19,false,'#536875')+8;const content=h+label(value,x+18,top+16+h,412,24,true)+32;height=Math.max(height,content);commands.splice(start,0,()=>{ctx.fillStyle='#f0f4f6';ctx.fillRect(x,top,452,height);});});y+=height+16;}};
+ const grid=items=>{for(let i=0;i<items.length;i+=2){const top=y;let height=0;items.slice(i,i+2).forEach(([key,value],col)=>{const x=40+col*468;const start=commands.length;const h=label(key,x+18,top+16,412,26,false,'#536875')+8;const content=h+label(value,x+18,top+16+h,412,34,true)+32;height=Math.max(height,content);commands.splice(start,0,()=>{ctx.fillStyle='#f0f4f6';ctx.fillRect(x,top,452,height);});});y+=height+16;}};
  grid(details);y+=12;
- if(stages.length){y+=label('Production & publishing',40,y,920,28,true)+18;grid(stages.map(k=>[LABELS[k],p[k]]));}
- for(const [title,value] of [['Team notes',p.notes],['Published links',p.links]])if(value){y+=20;y+=label(title,40,y,920,28,true)+12;y+=label(value,40,y,920);}
+ if(stages.length){y+=label('Production & publishing',40,y,920,36,true)+18;grid(stages.map(k=>[LABELS[k],p[k]]));}
+ for(const [title,value] of [['Team notes',p.notes],['Published links',p.links]])if(value){y+=20;y+=label(title,40,y,920,36,true)+12;y+=label(value,40,y,920);}
  canvas.height=Math.ceil(y+40);ctx=canvas.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,1000,canvas.height);commands.forEach(draw=>draw());
  return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('Image export failed')),'image/png'));
 }

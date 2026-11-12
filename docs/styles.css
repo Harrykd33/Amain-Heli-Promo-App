@@ -107,3 +107,16 @@ label,.contact-fields label,.contact-links,.brand-card p,.team-card>.muted,.crew
 .social.done.ig{color:#a64b00;background:#fff0df;border-color:#f4a04f;box-shadow:0 0 5px #f5822099,0 0 12px #f5822059}
 .social.done.yt{color:#c51c24;background:#ffebec;border-color:#f16b70;box-shadow:0 0 5px #ff283599,0 0 12px #ff283559}
 .plan-screenshot{display:block;width:100%;height:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px}
+
+/* Compact cards keep larger details while reducing vertical gaps. */
+.product-card{padding:12px 16px 0}.product-card .card-top{margin-bottom:6px}.product-card .promotion-date{margin-top:3px}.product-card .description{padding-top:2px;line-height:1.35}.product-card .card-meta{margin:8px 0 9px}.product-card .stage-list{margin:9px 0;gap:5px 8px}.product-card .progress-track{margin-top:5px}.product-card .card-footer{padding:4px 0}
+.notes-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:760px){
+ .brand-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .brand-card{padding:12px;min-width:0;border-radius:12px}.brand-card h2{font-size:16px;overflow-wrap:anywhere;margin-bottom:6px}
+ .brand-card .contact-summary{padding:7px 0}.brand-card .contact-summary h3{font-size:13px;overflow-wrap:anywhere}
+ .brand-card p,.brand-card .contact-links{font-size:12px;line-height:1.4}.brand-card .contact-links{grid-template-columns:1fr;gap:5px}
+ .brand-card .contact-summary p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ .brand-card .text-button,.brand-card .add-contact-card{font-size:12px;white-space:normal;width:100%;padding:7px 3px;min-height:40px}
+ .notes-actions{justify-content:flex-end}.notes-actions button{font-size:12px;padding:9px 12px}
+}
