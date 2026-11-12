@@ -99,3 +99,11 @@ dialog:has(.compact-product-form){width:min(920px,calc(100% - 32px))}.compact-pr
 label,.contact-fields label,.contact-links,.brand-card p,.team-card>.muted,.crew-heading p,.crew-product small,.shared-plan p,.shared-plan dd,.fine{font-size:14px}.crew-product b{font-size:15px}.contact-summary h3{font-size:16px}.shared-plan dt,label small{font-size:12px}.dialog-content h3 span{font-size:16px}label input,label select,label textarea{font-size:16px}.side-bottom p{font-size:14px}
 
 .shared-plan .plan-header{display:block;width:calc(100% + 36px);max-width:none;height:auto;margin:-18px -18px 18px;border-radius:9px 9px 0 0}
+
+/* Readable card details; retain existing product titles and card widths. */
+.product-card .description{font-size:15px}
+.product-card .promotion-date,.product-card .card-meta,.product-card .card-meta b,.product-card .arrival,.product-card .arrival strong,.product-card .progress-heading,.product-card .stage-list .mini-stage{font-size:14px}
+.social.done.fb{color:#1263c4;background:#e6f1ff;border-color:#609ee9;box-shadow:0 0 5px #1877f299,0 0 12px #1877f259}
+.social.done.ig{color:#a64b00;background:#fff0df;border-color:#f4a04f;box-shadow:0 0 5px #f5822099,0 0 12px #f5822059}
+.social.done.yt{color:#c51c24;background:#ffebec;border-color:#f16b70;box-shadow:0 0 5px #ff283599,0 0 12px #ff283559}
+.plan-screenshot{display:block;width:100%;height:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px}
